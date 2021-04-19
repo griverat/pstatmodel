@@ -11,7 +11,7 @@ dependencies:
   - eofs
   - netCDF4
   - bottleneck
-  - statsmodel
+  - statsmodels
   - conda-build
   - black
   - anaconda-client
