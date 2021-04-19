@@ -1,0 +1,7 @@
+[report]
+omit =
+    setup.py
+    pstatmodel/__main__.py
+    pstatmodel/_version.py
+    versioneer.py
+    tests/*
