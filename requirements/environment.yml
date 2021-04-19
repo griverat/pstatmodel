@@ -1,0 +1,29 @@
+name: pstatmodel
+channels:
+  - conda-forge
+dependencies:
+  - numpy
+  - scipy
+  - xarray
+  - cartopy
+  - matplotlib
+  - dask
+  - eofs
+  - netCDF4
+  - bottleneck
+  - statsmodel
+  - conda-build
+  - black
+  - anaconda-client
+  - pip
+  - bump2version
+  - wheel
+  - watchdog
+  - flake8
+  - coverage
+  - Sphinx
+  - twine
+  - pytest
+  - pytest-runner
+  - pytest-cov
+  - pre-commit
