@@ -1,15 +1,17 @@
 from argparse import ArgumentParser
+
 from pstatmodel import __version__
+
 
 def cli(args=None):
     p = ArgumentParser(
-        description="Statistical model for precipitacion",
-        conflict_handler='resolve'
+        description="Statistical model for precipitacion", conflict_handler="resolve"
     )
     p.add_argument(
-        '-V', '--version',
-        action='version',
-        help='Show the conda-prefix-replacement version number and exit.',
+        "-V",
+        "--version",
+        action="version",
+        help="Show the conda-prefix-replacement version number and exit.",
         version="pstatmodel %s" % __version__,
     )
 
@@ -23,6 +25,7 @@ def cli(args=None):
     # See https://docs.python.org/3/library/sys.html#sys.exit
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import sys
+
     cli(sys.argv[1:])
