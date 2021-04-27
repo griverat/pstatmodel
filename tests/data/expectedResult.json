@@ -1,0 +1,69 @@
+{
+    "expectedResult1": {
+        "vars": [
+            "EP/NP_Junio",
+            "amplitude_1D_01",
+            "AO_Octubre",
+            "RMM2_1D_12",
+            "amplitude_3D_Marzo"
+        ],
+        "pvalue": 0.03
+    },
+    "expectedResult2": {
+        "vars": [
+            "RMM1_M_Mayo",
+            "SOI_Noviembre",
+            "RMM2_3D_Mayo",
+            "SOI_Mayo",
+            "RMM1_1D_01.1",
+            "AO_Abril",
+            "WP_Mayo"
+        ],
+        "pvalue": 0.02
+    },
+    "expectedResult3": {
+        "vars": [
+            "RMM2_1D_12",
+            "C_Junio",
+            "RMM2_2D_Junio",
+            "AO_Junio",
+            "amplitude_2D_01",
+            "NAO_Agosto",
+            "RMM2_1D_Junio"
+        ],
+        "pvalue": 0.05
+    },
+    "expectedResult4": {
+        "vars": [
+            "RMM1_M_Mayo",
+            "amplitude_1D_Junio",
+            "amplitude_3D_Abril",
+            "AO_Febrero",
+            "amplitude_1D_01.1",
+            "AO_Abril",
+            "E_Julio",
+            "RMM1_3D_01.1",
+            "EP/NP_Octubre",
+            "RMM2_2D_Mayo"
+        ],
+        "pvalue": 0.03
+    },
+    "expectedResult5": {
+        "vars": [
+            "amplitude_3D_Mayo",
+            "TSA_Junio",
+            "EP/NP_Octubre",
+            "SOI_Enero"
+        ],
+        "pvalue": 0.05
+    },
+    "expectedResult6": {
+        "vars": [
+            "WP_Octubre",
+            "E_Junio",
+            "RMM2_1D_Mayo",
+            "WP_Abril"
+        ],
+        "pvalue": 0.02
+    }
+}
