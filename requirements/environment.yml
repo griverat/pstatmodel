@@ -12,6 +12,7 @@ dependencies:
   - netCDF4
   - bottleneck
   - statsmodels
+  - openpyxl
   - conda-build
   - black
   - anaconda-client
