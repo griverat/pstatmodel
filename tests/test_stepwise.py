@@ -7,9 +7,13 @@ import pytest
 
 from pstatmodel.stepwise import base, base_old
 
-predictors = pd.read_excel("tests/data/Predcitores_IniJul_Gerardo_ec.xlsx")
+predictors = pd.read_excel(
+    "tests/data/Predcitores_IniJul_Gerardo_ec.xlsx", engine="openpyxl"
+)
 
-testSetPisco = pd.read_excel("tests/data/testSet.xlsx", skiprows=1, nrows=37)
+testSetPisco = pd.read_excel(
+    "tests/data/testSet.xlsx", skiprows=1, nrows=37, engine="openpyxl"
+)
 
 with open("tests/data/expectedResult.json", "r") as JSON:
     expectedDict = json.load(JSON)

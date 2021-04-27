@@ -13,7 +13,6 @@ dependencies:
   - bottleneck
   - statsmodels
   - openpyxl
-  - xlrd
   - conda-build
   - black
   - anaconda-client
