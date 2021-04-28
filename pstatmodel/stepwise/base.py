@@ -77,13 +77,12 @@ def stepwise_selection(
             break
         elif len(included) > max_vars:
             psize = 999
+            included_pvals = np.array(included_pvals)
             while psize > max_vars:
                 threshold_in = np.round(max([0.01, threshold_in - 0.01]), decimals=2)
                 threshold_in_next = np.round(
                     max([0.01, threshold_in - 0.01]), decimals=2
                 )
-
-                included_pvals = np.array(included_pvals)
 
                 mask = included_pvals < threshold_in
                 mask_next = included_pvals < threshold_in_next
