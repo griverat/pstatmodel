@@ -130,7 +130,8 @@ def stepwise_selection(
         elif dropped:
             if threshold_in == 0.1 and onetime:
                 threshold_in = _threshold_in
-                print(f"Dropped initial threshold_in value to {threshold_in}")
+                if verbose:
+                    print(f"Dropped initial threshold_in value to {threshold_in}")
                 included = []
                 included_pvals = []
                 included_rvals = []
