@@ -52,7 +52,7 @@ def measure(func):
 
 # @measure
 @pytest.mark.parametrize(
-    "testSet_old,predictors_old,expected_old", [shiftData(x) for x in range(1, 7)]
+    "testSet_old,predictors_old,expected_old", [shiftData(x) for x in range(1, 9)]
 )
 def test_base_old(testSet_old, predictors_old, expected_old):
     model = (
@@ -71,14 +71,14 @@ def test_base_old(testSet_old, predictors_old, expected_old):
 
 
 @pytest.mark.parametrize(
-    "testSet,predictors,expected", [shiftData(x) for x in range(1, 7)]
+    "testSet,predictors,expected", [shiftData(x) for x in range(1, 9)]
 )
 def test_base(testSet, predictors, expected):
     model = (
         base.stepwise_selection(
             predictors,
             testSet,
-            threshold_in=0.05,
+            threshold_in=0.1,
             threshold_out=0.1,
             max_vars=12,
             min_vars=4,
