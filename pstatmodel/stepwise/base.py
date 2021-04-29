@@ -2,9 +2,6 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-# import xarray as xr
-# from dask import compute, delayed
-
 
 def stepwise_selection(
     X,
@@ -63,7 +60,6 @@ def stepwise_selection(
         # use all coefs except intercept
         pvalues = model.pvalues.iloc[1:]
         worst_pval = pvalues.max()  # null if pvalues is empty
-        #         print(f"{best_pval=} // {worst_pval=}")
         if worst_pval > threshold_out:
             changed = True
             dropped = True
@@ -145,7 +141,6 @@ def stepwise_selection(
                         print("Breaking condition met: R value over 0.9")
 
         if not changed:
-            #             break
             if len(included) < min_vars and threshold_in != 0.1:
                 threshold_in = np.round(min([0.1, threshold_in + 0.01]), decimals=2)
                 if verbose:
