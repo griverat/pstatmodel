@@ -78,7 +78,7 @@ def test_base(testSet, predictors, expected):
         base.stepwise_selection(
             predictors,
             testSet,
-            threshold_in=0.1,
+            threshold_in=0.05,
             threshold_out=0.1,
             max_vars=12,
             min_vars=4,
