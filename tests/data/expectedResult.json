@@ -65,5 +65,27 @@
             "WP_Abril"
         ],
         "pvalue": 0.02
+    },
+    "expectedResult7": {
+        "vars": [
+            "RMM2_1D_12",
+            "RMM2_2D_Junio",
+            "WP_Abril",
+            "C_Junio"
+        ],
+        "pvalue": 0.03
+    },
+    "expectedResult8": {
+        "vars": [
+            "RMM1_2D_Mayo",
+            "SOI_Septiembre",
+            "RMM2_2D_01",
+            "amplitude_3D_01.1",
+            "TSA_Octubre",
+            "WP_Noviembre",
+            "NAO_Diciembre",
+            "AO_Mayo"
+        ],
+        "pvalue": 0.04
     }
 }
