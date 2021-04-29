@@ -29,11 +29,12 @@ def stepwise_selection(
     included = list(initial_list)
     included_pvals = []
     included_rvals = []
-    # min_pvalue = 0.1
+    _threshold_in = threshold_in
+    threshold_in = 0.1
     lower = False
     rcond = False
     dropped = False
-    #     over = False
+    onetime = True
     if np.isnan(y).any():
         return [], np.nan, np.nan
     if verbose:
@@ -127,14 +128,25 @@ def stepwise_selection(
                 model = sm.OLS(y, sm.add_constant(X[included])).fit()
             break
         elif dropped:
-            if len(included) > max_vars and threshold_in != 0.01 and not lower:
+            if threshold_in == 0.1 and onetime:
+                threshold_in = _threshold_in
+                print(f"Dropped initial threshold_in value to {threshold_in}")
+                included = []
+                included_pvals = []
+                included_rvals = []
+                changed = True
+                onetime = False
+
+            elif len(included) > max_vars and threshold_in != 0.01 and not lower:
                 threshold_in = np.round(max([0.01, threshold_in - 0.01]), decimals=2)
                 if verbose:
                     print(f"Upped threshold_in value to {threshold_in}")
                 included = []
+                included_pvals = []
+                included_rvals = []
                 changed = True
 
-            if len(included) >= min_vars and lower:
+            elif len(included) >= min_vars and lower:
                 if model.rsquared ** (0.5) > 0.9:
                     changed = False
                     if verbose:
@@ -146,6 +158,8 @@ def stepwise_selection(
                 if verbose:
                     print(f"Dropped threshold_in value to {threshold_in}")
                 included = []
+                included_pvals = []
+                included_rvals = []
                 lower = True
             else:
                 break
