@@ -87,5 +87,13 @@
             "AO_Mayo"
         ],
         "pvalue": 0.04
+    },
+    "expectedResult9": {
+        "vars": [],
+        "pvalue": "nan"
+    },
+    "expectedResult10": {
+        "vars": [],
+        "pvalue": "nan"
     }
 }
