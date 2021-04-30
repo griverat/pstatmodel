@@ -116,7 +116,9 @@ def stepwise_selection(
                     if verbose:
                         print("breaking on R condition")
                 elif threshold_in == 0.01 or threshold_in == 0.1:
-                    break
+                    if verbose:
+                        print("Reached min/max pvalue condition")
+                    pass
                 else:
                     continue
                 break
