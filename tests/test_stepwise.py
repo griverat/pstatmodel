@@ -2,6 +2,7 @@ import json
 from functools import wraps
 from time import time
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -22,6 +23,8 @@ with open("tests/data/expectedResult.json", "r") as JSON:
 def shiftData(case, predictors=predictors, testset=testSetPisco, expected=expectedDict):
     testsetCase = testset[f"TestSet{case}"]
     expectedCase = expected[f"expectedResult{case}"]
+    if expectedCase["pvalue"] == "nan":
+        expectedCase["pvalue"] = np.nan
     month = testsetCase.iloc[0]
     if month in [10, 11, 12]:
         return (
@@ -52,7 +55,7 @@ def measure(func):
 
 # @measure
 @pytest.mark.parametrize(
-    "testSet_old,predictors_old,expected_old", [shiftData(x) for x in range(1, 9)]
+    "testSet_old,predictors_old,expected_old", [shiftData(x) for x in range(1, 11)]
 )
 def test_base_old(testSet_old, predictors_old, expected_old):
     model = (
@@ -67,11 +70,11 @@ def test_base_old(testSet_old, predictors_old, expected_old):
         ),
     )
     assert model[0][0] == expected_old["vars"]
-    assert model[0][2] == expected_old["pvalue"]
+    np.testing.assert_equal(model[0][2], expected_old["pvalue"])
 
 
 @pytest.mark.parametrize(
-    "testSet,predictors,expected", [shiftData(x) for x in range(1, 9)]
+    "testSet,predictors,expected", [shiftData(x) for x in range(1, 11)]
 )
 def test_base(testSet, predictors, expected):
     model = (
@@ -86,4 +89,4 @@ def test_base(testSet, predictors, expected):
         ),
     )
     assert model[0][0] == expected["vars"]
-    assert model[0][2] == expected["pvalue"]
+    np.testing.assert_equal(model[0][2], expected["pvalue"])
