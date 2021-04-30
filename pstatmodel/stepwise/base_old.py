@@ -85,7 +85,7 @@ def stepwise_selection(
                 included = []
                 lower = True
             else:
-                break
+                break  # pragma: no cover
     return included, model, threshold_in
 
 

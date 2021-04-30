@@ -163,5 +163,5 @@ def stepwise_selection(
                 included_rvals = []
                 lower = True
             else:
-                break
+                break  # pragma: no cover
     return included, model, threshold_in
