@@ -95,5 +95,17 @@
     "expectedResult10": {
         "vars": [],
         "pvalue": "nan"
+    },
+    "expectedResult11": {
+        "vars": [
+            "amplitude_2D_Marzo",
+            "amplitude_2D_Abril",
+            "AO_Diciembre",
+            "RMM2_3D_Junio",
+            "amplitude_3D_12",
+            "RMM1_1D_01.1",
+            "RMM1_M_Junio"
+        ],
+        "pvalue": 0.02
     }
 }
