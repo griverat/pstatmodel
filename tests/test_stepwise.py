@@ -53,15 +53,19 @@ def measure(func):
     return _time_it
 
 
-# @measure
+iTEST = 1
+fTEST = 12
+
+
 @pytest.mark.parametrize(
-    "testSet_old,predictors_old,expected_old", [shiftData(x) for x in range(1, 11)]
+    "testSetOld,predictorsOld,expectedOld",
+    [shiftData(x) for x in range(iTEST, fTEST)],
 )
-def test_base_old(testSet_old, predictors_old, expected_old):
+def test_base_old(testSetOld, predictorsOld, expectedOld):
     model = (
         base_old.stepwise_selection(
-            predictors_old,
-            testSet_old,
+            predictorsOld,
+            testSetOld,
             threshold_in=0.05,
             threshold_out=0.1,
             max_vars=12,
@@ -69,12 +73,12 @@ def test_base_old(testSet_old, predictors_old, expected_old):
             verbose=True,
         ),
     )
-    assert model[0][0] == expected_old["vars"]
-    np.testing.assert_equal(model[0][2], expected_old["pvalue"])
+    assert model[0][0] == expectedOld["vars"]
+    np.testing.assert_equal(model[0][2], expectedOld["pvalue"])
 
 
 @pytest.mark.parametrize(
-    "testSet,predictors,expected", [shiftData(x) for x in range(1, 11)]
+    "testSet,predictors,expected", [shiftData(x) for x in range(iTEST, fTEST)]
 )
 def test_base(testSet, predictors, expected):
     model = (
