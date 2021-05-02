@@ -121,7 +121,7 @@ def stepwise_selection(
                     if verbose:
                         print("breaking on R condition")
                 else:
-                    continue
+                    continue  # pragma: no cover
                 break
             mfalse = np.where(mask == False)[0]
             if rcond:
