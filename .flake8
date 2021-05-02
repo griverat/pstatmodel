@@ -1,2 +1,9 @@
 [flake8]
-ignore = E712
+# copied from xarray
+ignore =
+    E203 # whitespace before ':' - doesn't work well with black
+    E402 # module level import not at top of file
+    E501 # line too long - let black worry about that
+    E731 # do not assign a lambda expression, use a def
+    W503 # line break before binary operator
+    E712 # conditional checking with numpy
