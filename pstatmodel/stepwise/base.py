@@ -96,7 +96,12 @@ def stepwise_selection(
                 else:
                     psize_next = mask_next.sum()
 
-                if psize == psize_next and threshold_in != 0.01 and psize != 0:
+                if (
+                    psize == psize_next
+                    and threshold_in != 0.01
+                    and psize != 0
+                    and psize >= min_vars
+                ):
                     if verbose:
                         print(f"{psize = }, {threshold_in = }")
                         print(f"{psize_next = }, {threshold_in_next = }")
@@ -108,7 +113,7 @@ def stepwise_selection(
                     if verbose:
                         print(f"break: {psize = }, {threshold_in = }")
                     pass
-                elif psize < min_vars and threshold_in != 0.1:
+                elif psize < min_vars or threshold_in == 0.1:
                     included_rvals = np.array(included_rvals)
                     mask = included_rvals < 0.9
                     threshold_in = np.round(min([0.1, threshold_in + 0.01]), decimals=2)
