@@ -107,5 +107,21 @@
             "RMM1_M_Junio"
         ],
         "pvalue": 0.02
+    },
+    "expectedResult12": {
+        "vars": [
+            "NAO_Agosto",
+            "amplitude_1D_Abril",
+            "RMM1_1D_12",
+            "WP_Octubre",
+            "RMM1_3D_01",
+            "amplitude_2D_12",
+            "NAO_Julio",
+            "EP/NP_Mayo",
+            "ONI_AMJ",
+            "WP_Julio",
+            "AMI_Julio"
+        ],
+        "pvalue": 0.1
     }
 }
