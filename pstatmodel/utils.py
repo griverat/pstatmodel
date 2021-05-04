@@ -1,14 +1,18 @@
 import pandas as pd
 
 
-def shift_predictor(predictor: pd.DataFrame, init_month, iyear=1975, fyear=2017):
+def shift_predictor(
+    table: pd.DataFrame,
+    predictor: str,
+    init_month: str,
+    iyear: int = 1975,
+    fyear: int = 2017,
+):
     _collection = []
     for year in range(iyear, fyear):
         _collection.append(
-            predictor.query(
+            table.query(
                 f"(time>'{year -1 }-{init_month}-01')&(time<'{year}-{init_month}-01')"
-            )
-            .iloc[:, 0]
-            .reset_index(drop=True)
+            )[predictor].reset_index(drop=True)
         )
-    return pd.concat(_collection, axis=1).T
+    return pd.concat(_collection, axis=1).T.reset_index(drop=True)
