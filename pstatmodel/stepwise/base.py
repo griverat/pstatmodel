@@ -113,10 +113,13 @@ def stepwise_selection(
                     if verbose:
                         print(f"break: {psize = }, {threshold_in = }")
                     pass
-                elif psize < min_vars or threshold_in == 0.1:
+                elif psize < min_vars or threshold_in in [0.1, 0.01]:
                     included_rvals = np.array(included_rvals)
                     mask = included_rvals < 0.9
-                    threshold_in = np.round(min([0.1, threshold_in + 0.01]), decimals=2)
+                    if psize != 13:
+                        threshold_in = np.round(
+                            min([0.1, threshold_in + 0.01]), decimals=2
+                        )
                     rcond = True
                     if verbose:
                         print("breaking on R condition")
