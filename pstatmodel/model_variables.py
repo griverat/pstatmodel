@@ -1,6 +1,6 @@
 import pandas as pd
 
-container = {
+DATA_CONTAINTER = {
     "AAO": {
         "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/aao/monthly.aao.index.b79.current.ascii",
         "fwf_kwargs": dict(parse_dates=[[0, 1]], header=None),
@@ -150,7 +150,7 @@ def wide_to_long(source, *args, fwf_kwargs={}, **kwargs):
 
 
 if __name__ == "__main__":
-    for predictor, pargs in container.items():
+    for predictor, pargs in DATA_CONTAINTER.items():
         if pargs["format"] == "long":
             raw_data = parse_fwf(**pargs)
         else:
