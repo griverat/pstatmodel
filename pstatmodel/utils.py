@@ -121,7 +121,6 @@ DATA_CONTAINTER = {
 
 def parse_fwf(
     source: str,
-    *args: tuple,
     timefix: bool = True,
     fwf_kwargs: dict = {},
     **kwargs: dict,
@@ -134,9 +133,7 @@ def parse_fwf(
     return variable[["time", kwargs["name"]]]
 
 
-def wide_to_long(
-    source: str, *args: tuple, fwf_kwargs: dict = {}, **kwargs: dict
-) -> pd.DataFrame:
+def wide_to_long(source: str, fwf_kwargs: dict = {}, **kwargs: dict) -> pd.DataFrame:
     wide_data = pd.read_fwf(source, **fwf_kwargs)
 
     if "FILL_VALUE" not in kwargs.keys():
