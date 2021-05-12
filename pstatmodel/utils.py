@@ -119,7 +119,13 @@ DATA_CONTAINTER = {
 }
 
 
-def parse_fwf(source, *args, timefix=True, fwf_kwargs={}, **kwargs):
+def parse_fwf(
+    source: str,
+    *args: tuple,
+    timefix: bool = True,
+    fwf_kwargs: dict = {},
+    **kwargs: dict,
+) -> pd.DataFrame:
     variable = pd.read_fwf(source, **fwf_kwargs)
     if "columns" in kwargs.keys():
         variable = variable.rename(columns=kwargs["columns"])
@@ -128,7 +134,9 @@ def parse_fwf(source, *args, timefix=True, fwf_kwargs={}, **kwargs):
     return variable[["time", kwargs["name"]]]
 
 
-def wide_to_long(source, *args, fwf_kwargs={}, **kwargs):
+def wide_to_long(
+    source: str, *args: tuple, fwf_kwargs: dict = {}, **kwargs: dict
+) -> pd.DataFrame:
     wide_data = pd.read_fwf(source, **fwf_kwargs)
 
     if "FILL_VALUE" not in kwargs.keys():
@@ -155,7 +163,7 @@ def shift_predictor(
     init_month: str,
     iyear: int = 1975,
     fyear: int = 2017,
-):
+) -> pd.DataFrame:
     _collection = []
     months = [
         "Enero",
