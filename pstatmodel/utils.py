@@ -164,7 +164,7 @@ def parse_fwf(
         variable["time"] = variable["time"] + pd.Timedelta("14D")
     var = (
         kwargs["variable"]
-        if isinstance([kwargs["variable"]], list)
+        if isinstance(kwargs["variable"], list)
         else [kwargs["variable"]]
     )
     return variable[["time"] + var]
