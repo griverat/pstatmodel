@@ -227,7 +227,7 @@ def shift_predictor(
     return result
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     for predictor, pargs in DATA_CONTAINTER.items():
         if predictor != "RMM":
             continue
