@@ -158,6 +158,8 @@ def parse_fwf(
     fwf_kwargs: dict = {},
     **kwargs: dict,
 ) -> pd.DataFrame:
+    if "webscrap" in kwargs.keys():
+        source = scrap_data(source)
     variable = pd.read_fwf(source, **fwf_kwargs)
     if "columns" in kwargs.keys():
         variable = variable.rename(columns=kwargs["columns"])
