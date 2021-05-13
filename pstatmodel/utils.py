@@ -116,6 +116,29 @@ DATA_CONTAINTER = {
         "format": "wide",
         "FILL_VALUE": -99.99,
     },
+    "RMM": {
+        "source": "http://www.bom.gov.au/climate/mjo/graphics/rmm.74toRealtime.txt",
+        "fwf_kwargs": dict(
+            skiprows=2,
+            parse_dates={"time": [0, 1, 2]},
+            names=[
+                "year",
+                "month",
+                "day",
+                "RMM1",
+                "RMM2",
+                "phase",
+                "amplitude",
+                "Final_Value",
+            ],
+            # widths=[
+            #     5,
+            # ]
+            # + [7] * 12,
+        ),
+        "format": "long",
+        "name": ["RMM1", "RMM2"],
+    },
 }
 
 
@@ -192,6 +215,8 @@ def shift_predictor(
 
 if __name__ == "__main__":
     for predictor, pargs in DATA_CONTAINTER.items():
+        if predictor != "RMM":
+            continue
         if pargs["format"] == "long":
             raw_data = parse_fwf(**pargs)
         else:
