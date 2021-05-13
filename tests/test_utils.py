@@ -13,12 +13,11 @@ def testShiftPredictor():
 
 
 def testVariableFetcher():
-    for predictor, pargs in utils.DATA_CONTAINTER.items():
+    for pargs in utils.DATA_CONTAINTER.values():
         if pargs["format"] == "long":
             raw_data = utils.parse_fwf(**pargs)
         elif pargs["format"] == "wide":
             raw_data = utils.wide_to_long(**pargs)
         else:
             raw_data = None
-        assert predictor == pargs["name"]
         assert raw_data is not None
