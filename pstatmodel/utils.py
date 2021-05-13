@@ -134,10 +134,7 @@ DATA_CONTAINTER = {
                 "amplitude",
                 "Final_Value",
             ],
-            # widths=[
-            #     5,
-            # ]
-            # + [7] * 12,
+            widths=[12, 12, 12, 16, 16, 12, 16, 32],
         ),
         "format": "long",
         "webscrap": True,
