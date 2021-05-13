@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from pstatmodel import utils
 
@@ -12,12 +13,14 @@ def testShiftPredictor():
     np.array_equal(result, expected)
 
 
-def testVariableFetcher():
-    for pargs in utils.DATA_CONTAINTER.values():
-        if pargs["format"] == "long":
-            raw_data = utils.parse_fwf(**pargs)
-        elif pargs["format"] == "wide":
-            raw_data = utils.wide_to_long(**pargs)
-        else:
-            raw_data = None
-        assert raw_data is not None
+@pytest.mark.parametrize(
+    "source_data", utils.DATA_CONTAINTER.values(), ids=utils.DATA_CONTAINTER.keys()
+)
+def testVariableFetcher(source_data):
+    if source_data["format"] == "long":
+        raw_data = utils.parse_fwf(**source_data)
+    elif source_data["format"] == "wide":
+        raw_data = utils.wide_to_long(**source_data)
+    else:
+        raw_data = None
+    assert raw_data is not None
