@@ -8,40 +8,40 @@ DATA_CONTAINTER = {
         "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/aao/monthly.aao.index.b79.current.ascii",
         "fwf_kwargs": dict(parse_dates=[[0, 1]], header=None),
         "columns": {"0_1": "time", 2: "AAO"},
-        "name": "AAO",
+        "variable": "AAO",
         "format": "long",
     },
     "AO": {
         "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/monthly.ao.index.b50.current.ascii",
         "fwf_kwargs": dict(parse_dates=[[0, 1]], header=None),
         "columns": {"0_1": "time", 2: "AO"},
-        "name": "AO",
+        "variable": "AO",
         "format": "long",
     },
     "PMM": {
         "source": "https://www.aos.wisc.edu/~dvimont/MModes/RealTime/PMM.txt",
         "fwf_kwargs": dict(parse_dates=[["Year", "Mo"]]),
         "columns": {"Year_Mo": "time", "SST": "PMM"},
-        "name": "PMM",
+        "variable": "PMM",
         "format": "long",
     },
     "AMM": {
         "source": "https://www.aos.wisc.edu/~dvimont/MModes/RealTime/AMM.txt",
         "fwf_kwargs": dict(parse_dates=[["Year", "Mo"]]),
         "columns": {"Year_Mo": "time", "SST": "AMM"},
-        "name": "AMM",
+        "variable": "AMM",
         "format": "long",
     },
     "TNA": {
         "source": "https://psl.noaa.gov/data/correlation/tna.data",
         "fwf_kwargs": dict(skiprows=1, skipfooter=1, header=None),
-        "name": "TNA",
+        "variable": "TNA",
         "format": "wide",
     },
     "TSA": {
         "source": "https://psl.noaa.gov/data/correlation/tsa.data",
         "fwf_kwargs": dict(skiprows=1, skipfooter=1, header=None),
-        "name": "TSA",
+        "variable": "TSA",
         "format": "wide",
     },
     "NAO": {
@@ -55,7 +55,7 @@ DATA_CONTAINTER = {
             ]
             + [7] * 12,
         ),
-        "name": "NAO",
+        "variable": "NAO",
         "format": "wide",
         "FILL_VALUE": -99.9,
     },
@@ -70,7 +70,7 @@ DATA_CONTAINTER = {
             ]
             + [7] * 12,
         ),
-        "name": "EP/NP",
+        "variable": "EP/NP",
         "format": "wide",
         "FILL_VALUE": -99.9,
     },
@@ -85,7 +85,7 @@ DATA_CONTAINTER = {
             ]
             + [7] * 12,
         ),
-        "name": "WP",
+        "variable": "WP",
         "format": "wide",
         "FILL_VALUE": -99.9,
     },
@@ -100,7 +100,7 @@ DATA_CONTAINTER = {
             ]
             + [9] * 12,
         ),
-        "name": "AMI",
+        "variable": "AMI",
         "format": "wide",
         "FILL_VALUE": -99.99,
     },
@@ -115,7 +115,7 @@ DATA_CONTAINTER = {
             ]
             + [7] * 12,
         ),
-        "name": "SOI",
+        "variable": "SOI",
         "format": "wide",
         "FILL_VALUE": -99.99,
     },
@@ -140,7 +140,8 @@ DATA_CONTAINTER = {
             # + [7] * 12,
         ),
         "format": "long",
-        "name": ["RMM1", "RMM2"],
+        "webscrap": True,
+        "variable": ["RMM1", "RMM2"],
     },
 }
 
@@ -162,7 +163,9 @@ def parse_fwf(
         variable = variable.rename(columns=kwargs["columns"])
     if timefix is True:
         variable["time"] = variable["time"] + pd.Timedelta("14D")
-    return variable[["time", kwargs["name"]]]
+    if not isinstance(kwargs["variable"], list):
+        var = [kwargs["variable"]]
+    return variable[["time"] + var]
 
 
 def wide_to_long(source: str, fwf_kwargs: dict = {}, **kwargs: dict) -> pd.DataFrame:
@@ -175,13 +178,13 @@ def wide_to_long(source: str, fwf_kwargs: dict = {}, **kwargs: dict) -> pd.DataF
         FILL_VALUE = kwargs["FILL_VALUE"]
 
     long_data = pd.melt(
-        wide_data, id_vars=[0], var_name="month", value_name=kwargs["name"]
+        wide_data, id_vars=[0], var_name="month", value_name=kwargs["variable"]
     )
     long_data["time"] = long_data.apply(
         lambda x: pd.to_datetime(f"{x[0]:.0f}-{x['month']:.0f}-15"), axis=1
     )
-    long_data = long_data.sort_values("time")[["time", kwargs["name"]]]
-    long_data = long_data[long_data[kwargs["name"]] != FILL_VALUE]
+    long_data = long_data.sort_values("time")[["time", kwargs["variable"]]]
+    long_data = long_data[long_data[kwargs["variable"]] != FILL_VALUE]
 
     return long_data.reset_index(drop=True)
 
