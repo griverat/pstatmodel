@@ -162,8 +162,11 @@ def parse_fwf(
         variable = variable.rename(columns=kwargs["columns"])
     if timefix is True:
         variable["time"] = variable["time"] + pd.Timedelta("14D")
-    if not isinstance(kwargs["variable"], list):
-        var = [kwargs["variable"]]
+    var = (
+        kwargs["variable"]
+        if isinstance([kwargs["variable"]], list)
+        else [kwargs["variable"]]
+    )
     return variable[["time"] + var]
 
 
