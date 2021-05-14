@@ -11,10 +11,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Cache conda
-        uses: actions/cache@v2
-        with:
-          path: ~/conda_pkgs_dir
-          key: conda-py3.9-pstatmodel
+      uses: actions/cache@v2
+      with:
+        path: ~/conda_pkgs_dir
+        key: conda-py3.9-pstatmodel
     - uses: conda-incubator/setup-miniconda@v2
       with:
         channels: conda-forge
