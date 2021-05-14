@@ -8,7 +8,7 @@ ecData = pd.read_csv("tests/data/ec_ersstv5.txt", sep=",")
 expected = pd.read_csv("tests/data/e_reformat.txt", sep=";")
 
 
-def testShiftPredictor():
+def test_ShiftPredictor():
     result = utils.shift_predictor(ecData, "E", "08")
     np.array_equal(result, expected)
 
@@ -16,7 +16,7 @@ def testShiftPredictor():
 @pytest.mark.parametrize(
     "source_data", utils.DATA_CONTAINTER.values(), ids=utils.DATA_CONTAINTER.keys()
 )
-def testVariableFetcher(source_data):
+def test_VariableFetcher(source_data):
     if source_data["format"] == "long":
         raw_data = utils.parse_fwf(**source_data)
     elif source_data["format"] == "wide":
