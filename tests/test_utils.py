@@ -26,20 +26,20 @@ def testVariableFetcher(source_data):
     assert raw_data is not None
 
 
-# taken from https://stackoverflow.com/a/38778401
-def assert_series_not_equal(*args, **kwargs):
-    try:
-        pd.testing.assert_series_equal(*args, **kwargs)
-    except AssertionError:
-        pass
-    else:
-        raise AssertionError
-
-
 def test_decadeResampler():
-    df = utils.parse_fwf(**utils.DATA_CONTAINTER["RMM"])
-    resampled = utils.resampleToDecade(df)
-    assert_series_not_equal(resampled["time"], df["time"])
+    df = pd.DataFrame(
+        {
+            "time": pd.date_range("2010-01-01", "2010-12-31", freq="1D"),
+            "col1": np.random.randn(365),
+            "col2": np.random.randn(365),
+        }
+    )
+    result = utils.resampleToDecade(df).set_index("time").index
+    expected = pd.date_range("2010-01-01", "2010-12-31", freq="1MS", name="time")
+    expected = expected.union(expected + pd.Timedelta("10D")).union(
+        expected + pd.Timedelta("20D")
+    )
+    pd.testing.assert_index_equal(result, expected)
 
 
 def test_splitByDay():
