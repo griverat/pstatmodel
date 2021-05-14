@@ -227,7 +227,7 @@ def shift_predictor(
     return result
 
 
-def compute_decade(data: pd.DataFrame) -> pd.DataFrame:
+def resampleToDecade(data: pd.DataFrame) -> pd.DataFrame:
     data = data.copy()
     ST_DATES = [1, 11, 21]
     data["groups"] = data["time"].dt.day.isin(ST_DATES).cumsum()
