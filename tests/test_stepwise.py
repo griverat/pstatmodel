@@ -1,6 +1,4 @@
 import json
-from functools import wraps
-from time import time
 
 import numpy as np
 import pandas as pd
@@ -18,6 +16,9 @@ testSetPisco = pd.read_excel(
 
 with open("tests/data/expectedResult.json", "r") as JSON:
     expectedDict = json.load(JSON)
+
+iTEST = 1
+fTEST = 13
 
 
 def shiftData(case, predictors=predictors, testset=testSetPisco, expected=expectedDict):
@@ -37,24 +38,6 @@ def shiftData(case, predictors=predictors, testset=testSetPisco, expected=expect
         predictors.iloc[4:40].reset_index(drop=True),
         expectedCase,
     )
-
-
-# https://stackoverflow.com/a/51503837
-def measure(func):
-    @wraps(func)
-    def _time_it(*args, **kwargs):
-        start = int(round(time() * 1000))
-        try:
-            return func(*args, **kwargs)
-        finally:
-            end_ = int(round(time() * 1000)) - start
-            print(f"Total execution time: {end_ if end_ > 0 else 0} ms")
-
-    return _time_it
-
-
-iTEST = 1
-fTEST = 13
 
 
 @pytest.mark.parametrize(

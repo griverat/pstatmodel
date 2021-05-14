@@ -1,4 +1,6 @@
+from functools import wraps
 from io import StringIO
+from time import time
 
 import pandas as pd
 import requests
@@ -243,6 +245,20 @@ def splitByDay(data: pd.DataFrame) -> list[pd.DataFrame]:
     groups = data.groupby(data["time"].dt.day).groups
     data_list = [data.iloc[x].reset_index(drop=True) for x in groups.values()]
     return data_list
+
+
+# https://stackoverflow.com/a/51503837
+def measure(func):
+    @wraps(func)
+    def _time_it(*args, **kwargs):
+        start = int(round(time() * 1000))
+        try:
+            return func(*args, **kwargs)
+        finally:
+            end_ = int(round(time() * 1000)) - start
+            print(f"Total execution time: {end_ if end_ > 0 else 0} ms")
+
+    return _time_it
 
 
 if __name__ == "__main__":  # pragma: no cover
