@@ -24,3 +24,19 @@ def testVariableFetcher(source_data):
     else:
         raw_data = None
     assert raw_data is not None
+
+
+# taken from https://stackoverflow.com/a/38778401
+def assert_series_not_equal(*args, **kwargs):
+    try:
+        pd.testing.assert_series_equal(*args, **kwargs)
+    except AssertionError:
+        pass
+    else:
+        raise AssertionError
+
+
+def test_decadeResampler():
+    df = utils.parse_fwf(**utils.DATA_CONTAINTER["RMM"])
+    resampled = utils.resampleToDecade(df)
+    assert_series_not_equal(resampled["time"], df["time"])
