@@ -239,6 +239,12 @@ def resampleToDecade(data: pd.DataFrame) -> pd.DataFrame:
     return data.reset_index(drop=True)
 
 
+def splitByDay(data: pd.DataFrame) -> list[pd.DataFrame]:
+    groups = data.groupby(data["time"].dt.day).groups
+    data_list = [data.iloc[x].reset_index(drop=True) for x in groups.values()]
+    return data_list
+
+
 if __name__ == "__main__":  # pragma: no cover
     for predictor, pargs in DATA_CONTAINTER.items():
         if predictor != "RMM":
