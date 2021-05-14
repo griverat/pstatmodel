@@ -29,9 +29,9 @@ def testVariableFetcher(source_data):
 def test_decadeResampler():
     df = pd.DataFrame(
         {
-            "time": pd.date_range("2010-01-01", "2010-12-31", freq="1D"),
-            "col1": np.random.randn(365),
-            "col2": np.random.randn(365),
+            "time": pd.date_range("2010-01-02", "2010-12-31", freq="1D"),
+            "col1": np.random.randn(364),
+            "col2": np.random.randn(364),
         }
     )
     result = utils.resampleToDecade(df).set_index("time").index
