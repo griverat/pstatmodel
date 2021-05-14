@@ -236,7 +236,7 @@ def resampleToDecade(data: pd.DataFrame) -> pd.DataFrame:
     if data.iloc[0, 0].day not in ST_DATES:
         closest_day = ST_DATES[ST_DATES.index(data.iloc[1, 0].day) - 1]
         data.iloc[0, 0] = data.iloc[0, 0].replace(day=closest_day)
-    return data.reset_index(drop=True)[data.columns[:-1]]
+    return data.reset_index(drop=True)
 
 
 if __name__ == "__main__":  # pragma: no cover
