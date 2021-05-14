@@ -31,7 +31,7 @@ jobs:
         pip install -e .
     - name: Test with pytest
       run: |
-        pytest -n 4
+        python -m pytest -n 4
     - name: Codecov
       uses: codecov/codecov-action@v1.0.15
       with:
