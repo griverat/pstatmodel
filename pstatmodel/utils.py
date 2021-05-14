@@ -138,7 +138,7 @@ DATA_CONTAINTER = {
         ),
         "format": "long",
         "webscrap": True,
-        "variable": ["RMM1", "RMM2"],
+        "variable": ["RMM1", "RMM2", "amplitude"],
     },
 }
 
@@ -225,6 +225,15 @@ def shift_predictor(
     column_names = [f"{predictor}_{month}" for month in months_shifted]
     result.columns = column_names
     return result
+
+
+def compute_decade(data: pd.DataFrame):
+    data = data.copy()
+    ST_DATES = [1, 11, 21]
+    data["groups"] = data["time"].dt.day.isin(ST_DATES).cumsum()
+    cols = {colname: "mean" for colname in data.columns[1:-1].tolist()}
+    data = data.groupby("group").agg({**{"time": "first"}, **cols})
+    return data
 
 
 if __name__ == "__main__":  # pragma: no cover
