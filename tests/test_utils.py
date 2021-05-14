@@ -40,3 +40,16 @@ def test_decadeResampler():
     df = utils.parse_fwf(**utils.DATA_CONTAINTER["RMM"])
     resampled = utils.resampleToDecade(df)
     assert_series_not_equal(resampled["time"], df["time"])
+
+
+def test_splitByDay():
+    df = pd.DataFrame(
+        {
+            "time": pd.date_range("2010-01-01", "2010-12-31", freq="1D"),
+            "col1": np.random.randn(365),
+            "col2": np.random.randn(365),
+        }
+    )
+    result = utils.splitByDay(df)[0]
+    expected = df[df["time"].dt.day == 1].reset_index(drop=True)
+    pd.testing.assert_frame_equal(result, expected)
