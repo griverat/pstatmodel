@@ -14,8 +14,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/conda_pkgs_dir
-          key:
-            conda-py3.9-pstatmodel
+          key: conda-py3.9-pstatmodel
     - uses: conda-incubator/setup-miniconda@v2
       with:
         channels: conda-forge
