@@ -230,7 +230,7 @@ def shift_predictor(
 def resampleToDecade(data: pd.DataFrame) -> pd.DataFrame:
     data = data.copy()
     ST_DATES = [1, 11, 21]
-    data["groups"] = data["time"].dt.day.isin(ST_DATES).cumsum()
+    data["group"] = data["time"].dt.day.isin(ST_DATES).cumsum()
     cols = {colname: "mean" for colname in data.columns[1:-1].tolist()}
     data = data.groupby("group").agg({**{"time": "first"}, **cols})
     if data.iloc[0, 0].day not in ST_DATES:
