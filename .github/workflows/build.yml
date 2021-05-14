@@ -10,10 +10,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Add conda to system path
-      run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
     - uses: conda-incubator/setup-miniconda@v2
       with:
         channels: conda-forge
