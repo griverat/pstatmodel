@@ -248,7 +248,7 @@ def splitByDay(data: pd.DataFrame) -> list[pd.DataFrame]:
 
 
 # https://stackoverflow.com/a/51503837
-def measure(func):
+def measure(func):  # pragma: no cover
     @wraps(func)
     def _time_it(*args, **kwargs):
         start = int(round(time() * 1000))
