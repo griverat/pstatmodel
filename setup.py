@@ -4,6 +4,9 @@ import versioneer
 
 requirements = [
     # package requirements go here
+    "pandas",
+    "numpy",
+    "statsmodels",
 ]
 
 setup(
