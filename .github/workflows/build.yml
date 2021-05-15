@@ -9,35 +9,35 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Cache conda
-      uses: actions/cache@v2
-      with:
-        path: ~/conda_pkgs_dir
-        key: conda-py3.9-pstatmodel
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        channels: conda-forge
-        channel-priority: strict
-        mamba-version: "*"
-        activate-environment: pstatmodel
-        auto-update-conda: false
-        python-version: 3.9
-        use-only-tar-bz2: true
-    - name: Install dependencies
-      run: |
-        mamba env update -f requirements/environment.yml
-    - name: Install the Package
-      run: |
-        pip install -e .
-    - name: Version info
-      run: |
-        conda info -a
-        conda list
-    - name: Test with pytest
-      run: |
-        python -m pytest -n 4
-    - name: Codecov
-      uses: codecov/codecov-action@v1.0.15
-      with:
-        verbose: true
+      - uses: actions/checkout@v2
+      - name: Cache conda
+        uses: actions/cache@v2
+        with:
+          path: ~/conda_pkgs_dir
+          key: conda-py3.9-pstatmodel
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          channels: conda-forge
+          channel-priority: strict
+          mamba-version: "*"
+          activate-environment: pstatmodel
+          auto-update-conda: false
+          python-version: 3.9
+          use-only-tar-bz2: true
+      - name: Install dependencies
+        run: |
+          mamba env update -f requirements/environment.yml
+      - name: Install the Package
+        run: |
+          pip install -e .
+      - name: Version info
+        run: |
+          conda info -a
+          conda list
+      - name: Test with pytest
+        run: |
+          python -m pytest -n 4
+      - name: Codecov
+        uses: codecov/codecov-action@v1.0.15
+        with:
+          verbose: true
