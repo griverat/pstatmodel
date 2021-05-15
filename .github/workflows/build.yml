@@ -30,6 +30,10 @@ jobs:
     - name: Install the Package
       run: |
         pip install -e .
+    - name: Version info
+      run: |
+        conda info -a
+        conda list
     - name: Test with pytest
       run: |
         python -m pytest -n 4
