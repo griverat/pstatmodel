@@ -228,6 +228,7 @@ def shift_predictor(
 
     if not monthsAreComplete(table):
         table = table.resample("M", on="time").mean().reset_index()
+        table["time"] = table["time"].apply(lambda dt: dt.replace(day=15))
     for year in range(iyear, fyear):
         _collection.append(
             table.query(
