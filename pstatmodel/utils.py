@@ -165,7 +165,7 @@ def parse_fwf(
     if "columns" in kwargs.keys():
         variable = variable.rename(columns=kwargs["columns"])
     if timefix is True:
-        variable["time"] = variable["time"] + pd.Timedelta("14D")
+        variable["time"] = variable["time"].apply(lambda dt: dt.replace(day=15))
     var = (
         kwargs["variable"]
         if isinstance(kwargs["variable"], list)
