@@ -4,7 +4,7 @@ import pytest
 
 from pstatmodel import utils
 
-ecData = pd.read_csv("tests/data/ec_ersstv5.txt", sep=",")
+ecData = pd.read_csv("tests/data/ec_ersstv5.txt", sep=",", parse_dates=[0])
 expected = pd.read_csv("tests/data/e_reformat.txt", sep=";")
 
 
