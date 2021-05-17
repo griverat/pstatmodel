@@ -252,6 +252,7 @@ def shift_predictor(
     months_shifted = months[shiftIndex:] + months[:shiftIndex]
     column_names = [f"{predictor}_{month}" for month in months_shifted]
     result.columns = column_names
+    result.index = range(iyear, fyear)
     return result
 
 
