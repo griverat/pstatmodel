@@ -145,7 +145,7 @@ DATA_CONTAINTER = {
 }
 
 
-def scrap_data(source):
+def _scrap_data(source):
     user_agent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.37"
     data = requests.get(source, headers={"User-Agent": user_agent})
     return StringIO(data.text)
@@ -158,7 +158,7 @@ def parse_fwf(
     **kwargs: dict,
 ) -> pd.DataFrame:
     if "webscrap" in kwargs.keys():
-        source = scrap_data(source)
+        source = _scrap_data(source)
     variable = pd.read_fwf(source, **fwf_kwargs)
     if "columns" in kwargs.keys():
         variable = variable.rename(columns=kwargs["columns"])
