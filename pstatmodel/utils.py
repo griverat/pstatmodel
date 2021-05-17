@@ -194,6 +194,14 @@ def wide_to_long(source: str, fwf_kwargs: dict = {}, **kwargs: dict) -> pd.DataF
     return long_data.reset_index(drop=True)
 
 
+def monthsAreComplete(table: pd.DataFrame) -> bool:
+    months = table["time"].dt.month.unique()
+    for mnum in range(1, 13):
+        if mnum not in months:
+            return False
+    return True
+
+
 def shift_predictor(
     table: pd.DataFrame,
     predictor: str,
@@ -216,6 +224,9 @@ def shift_predictor(
         "Noviembre",
         "Diciembre",
     ]
+
+    if not monthsAreComplete(table):
+        table = table.resample("M", on="time").mean().reset_index()
     for year in range(iyear, fyear):
         _collection.append(
             table.query(
