@@ -238,11 +238,15 @@ def shift_predictor(
     if not monthsAreComplete(table):
         table = _timefix(table, resample_to_months=True)
     for year in range(iyear, fyear):
-        _collection.append(
-            table.query(
-                f"(time>'{year -1 }-{init_month}-01')&(time<'{year}-{init_month}-01')"
-            )[predictor].reset_index(drop=True)
-        )
+        idate = f"{year-1}-{init_month}-15"
+        fdate = f"{year}-{init_month}-01"
+        _query = table.query(f"(time>='{idate}')&(time<'{fdate}')")
+        if _query["time"].size != 12:
+            _query = _query.set_index("time")
+            _query = _query.reindex(
+                pd.date_range(idate, fdate, freq=pd.DateOffset(months=1, day=15))
+            )
+        _collection.append(_query[predictor].reset_index(drop=True))
     result = pd.concat(_collection, axis=1).T.reset_index(drop=True)
     shiftIndex = int(init_month) - 1
     months_shifted = months[shiftIndex:] + months[:shiftIndex]
