@@ -226,6 +226,8 @@ def shift_predictor(
         "Diciembre",
     ]
 
+    if table.columns.size > 2:
+        table = table[["time"] + [predictor]]
     if not monthsAreComplete(table):
         table = table.resample("M", on="time").mean().reset_index()
         table["time"] = table["time"].apply(lambda dt: dt.replace(day=15))
