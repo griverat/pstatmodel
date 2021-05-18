@@ -159,9 +159,8 @@ DATA_CONTAINTER = {
         ),
         "variable": "ONI",
         "format": "wide",
-        "seasons": True,
-        "period_start": 7,
-        "period_end": 11,
+        "use_seasons": True,
+        "period": [-7, 11],
         "FILL_VALUE": -99.9,
     },
 }
