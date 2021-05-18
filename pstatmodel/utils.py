@@ -9,47 +9,47 @@ import requests
 DATA_CONTAINTER = {
     "AAO": {
         "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/aao/monthly.aao.index.b79.current.ascii",
-        "fwf_kwargs": dict(parse_dates=[[0, 1]], header=None),
+        "parse_kwargs": dict(parse_dates=[[0, 1]], header=None),
         "columns": {"0_1": "time", 2: "AAO"},
         "variable": "AAO",
         "format": "long",
     },
     "AO": {
         "source": "https://www.cpc.ncep.noaa.gov/products/precip/CWlink/daily_ao_index/monthly.ao.index.b50.current.ascii",
-        "fwf_kwargs": dict(parse_dates=[[0, 1]], header=None),
+        "parse_kwargs": dict(parse_dates=[[0, 1]], header=None),
         "columns": {"0_1": "time", 2: "AO"},
         "variable": "AO",
         "format": "long",
     },
     "PMM": {
         "source": "https://www.aos.wisc.edu/~dvimont/MModes/RealTime/PMM.txt",
-        "fwf_kwargs": dict(parse_dates=[["Year", "Mo"]]),
+        "parse_kwargs": dict(parse_dates=[["Year", "Mo"]]),
         "columns": {"Year_Mo": "time", "SST": "PMM"},
         "variable": "PMM",
         "format": "long",
     },
     "AMM": {
         "source": "https://www.aos.wisc.edu/~dvimont/MModes/RealTime/AMM.txt",
-        "fwf_kwargs": dict(parse_dates=[["Year", "Mo"]]),
+        "parse_kwargs": dict(parse_dates=[["Year", "Mo"]]),
         "columns": {"Year_Mo": "time", "SST": "AMM"},
         "variable": "AMM",
         "format": "long",
     },
     "TNA": {
         "source": "https://psl.noaa.gov/data/correlation/tna.data",
-        "fwf_kwargs": dict(skiprows=1, skipfooter=1, header=None),
+        "parse_kwargs": dict(skiprows=1, skipfooter=1, header=None),
         "variable": "TNA",
         "format": "wide",
     },
     "TSA": {
         "source": "https://psl.noaa.gov/data/correlation/tsa.data",
-        "fwf_kwargs": dict(skiprows=1, skipfooter=1, header=None),
+        "parse_kwargs": dict(skiprows=1, skipfooter=1, header=None),
         "variable": "TSA",
         "format": "wide",
     },
     "NAO": {
         "source": "https://psl.noaa.gov/data/correlation/nao.data",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=1,
             skipfooter=3,
             header=None,
@@ -64,7 +64,7 @@ DATA_CONTAINTER = {
     },
     "EP/NP": {
         "source": "https://psl.noaa.gov/data/correlation/epo.data",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=1,
             skipfooter=3,
             header=None,
@@ -79,7 +79,7 @@ DATA_CONTAINTER = {
     },
     "WP": {
         "source": "https://psl.noaa.gov/data/correlation/wp.data",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=1,
             skipfooter=3,
             header=None,
@@ -94,7 +94,7 @@ DATA_CONTAINTER = {
     },
     "AMI": {
         "source": "https://psl.noaa.gov/data/correlation/amon.us.data",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=1,
             skipfooter=4,
             header=None,
@@ -109,7 +109,7 @@ DATA_CONTAINTER = {
     },
     "SOI": {
         "source": "https://psl.noaa.gov/data/correlation/soi.data",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=1,
             skipfooter=3,
             header=None,
@@ -124,7 +124,7 @@ DATA_CONTAINTER = {
     },
     "RMM": {
         "source": "http://www.bom.gov.au/climate/mjo/graphics/rmm.74toRealtime.txt",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=2,
             parse_dates={"time": [0, 1, 2]},
             names=[
@@ -173,7 +173,7 @@ DATA_CONTAINTER = {
     },
     "ONI": {
         "source": "https://psl.noaa.gov/data/correlation/oni.data",
-        "fwf_kwargs": dict(
+        "parse_kwargs": dict(
             skiprows=1,
             skipfooter=8,
             header=None,
@@ -200,19 +200,16 @@ def _scrap_data(source):
 
 def parse_fwf(
     source: str,
-    timefix: bool = True,
-    fwf_kwargs: dict = {},
+    parse_kwargs: dict = {},
     **kwargs: dict,
 ) -> pd.DataFrame:
-    if "webscrap" in kwargs.keys():
+    if kwargs["webscrap"] is True:
         source = _scrap_data(source)
-    variable = pd.read_fwf(source, **fwf_kwargs)
-    if "columns" in kwargs.keys():
+    variable = pd.read_fwf(source, **parse_kwargs)
+    if kwargs["columns"] is not None:
         variable = variable.rename(columns=kwargs["columns"])
-    if timefix is True:
-        variable = monthResampler(
-            variable, kwargs["resample"] if "resample" in kwargs else False
-        )
+    if kwargs["timefix"] is True:
+        variable = _datefix(variable)
     var = (
         kwargs["variable"]
         if isinstance(kwargs["variable"], list)
@@ -221,10 +218,10 @@ def parse_fwf(
     return variable[["time"] + var]
 
 
-def wide_to_long(source: str, fwf_kwargs: dict = {}, **kwargs: dict) -> pd.DataFrame:
-    wide_data = pd.read_fwf(source, **fwf_kwargs)
+def wide_to_long(source: str, parse_kwargs: dict = {}, **kwargs: dict) -> pd.DataFrame:
+    wide_data = pd.read_fwf(source, **parse_kwargs)
 
-    if "FILL_VALUE" not in kwargs.keys():
+    if kwargs["FILL_VALUE"] is None:
         FILL_VALUE = wide_data.iloc[-1, 0]
         wide_data = wide_data.iloc[:-1, :]
     else:
@@ -250,10 +247,14 @@ def _monthsAreComplete(table: pd.DataFrame) -> bool:
     return True
 
 
-def monthResampler(table: pd.DataFrame, resample_to_months: bool = False):
-    if resample_to_months:
-        table = table.resample("M", on="time").mean().reset_index()
+def _datefix(table: pd.DataFrame):
     table["time"] = table["time"].apply(lambda dt: dt.replace(day=15))
+    return table
+
+
+def monthResampler(table: pd.DataFrame):
+    table = table.resample("M", on="time").mean().reset_index()
+    table = _datefix(table)
     return table
 
 
