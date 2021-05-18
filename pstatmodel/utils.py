@@ -143,7 +143,8 @@ DATA_CONTAINTER = {
         "format": "long",
         "webscrap": True,
         "variable": ["RMM1", "RMM2", "amplitude"],
-        "period": 7,
+        "period_start": 7,
+        "period_end": 12,
     },
     "RMM_monthly": {
         "source": "http://www.bom.gov.au/climate/mjo/graphics/rmm.74toRealtime.txt",
@@ -166,7 +167,8 @@ DATA_CONTAINTER = {
         "format": "long",
         "webscrap": True,
         "variable": ["RMM1", "RMM2", "amplitude"],
-        "period": 7,
+        "period_start": 7,
+        "period_end": 12,
         "resample": True,
     },
     "ONI": {
