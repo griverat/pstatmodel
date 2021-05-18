@@ -143,6 +143,7 @@ DATA_CONTAINTER = {
         "format": "long",
         "webscrap": True,
         "variable": ["RMM1", "RMM2", "amplitude"],
+        "period": 7,
     },
 }
 
