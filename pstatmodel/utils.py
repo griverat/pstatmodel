@@ -303,7 +303,7 @@ def shift_predictor(
     if table.columns.size > 2:
         table = table[["time", predictor]]
     if not _monthsAreComplete(table):
-        table = monthResampler(table, resample_to_months=True)
+        table = monthResampler(table)
     for year in range(iyear, fyear):
         idate = f"{year-1}-{init_month}-15"
         fdate = f"{year}-{init_month}-01"
@@ -323,8 +323,8 @@ def shift_predictor(
     return result
 
 
-def resampleToDecade(data: pd.DataFrame) -> pd.DataFrame:
-    data = data.copy()
+def decadeResampler(table: pd.DataFrame) -> pd.DataFrame:
+    data = table.copy()
     ST_DATES = [1, 11, 21]
     data["group"] = data["time"].dt.day.isin(ST_DATES).cumsum()
     cols = {colname: "mean" for colname in data.columns[1:-1].tolist()}
