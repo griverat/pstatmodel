@@ -243,6 +243,7 @@ def shift_predictor(
     init_month: str,
     iyear: int = 1975,
     fyear: int = 2017,
+    use_seasons: bool = False,
 ) -> pd.DataFrame:
     _collection = []
     months = [
@@ -259,6 +260,24 @@ def shift_predictor(
         "Noviembre",
         "Diciembre",
     ]
+
+    seasons = [
+        "DJF",
+        "JFM",
+        "FMA",
+        "MAM",
+        "AMJ",
+        "MJJ",
+        "JJA",
+        "JAS",
+        "ASO",
+        "SON",
+        "OND",
+        "NDJ",
+    ]
+
+    if use_seasons:
+        months = seasons
 
     if table.columns.size > 2:
         table = table[["time", predictor]]
