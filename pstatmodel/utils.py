@@ -169,6 +169,24 @@ DATA_CONTAINTER = {
         "period": 7,
         "resample": True,
     },
+    "ONI": {
+        "source": "https://psl.noaa.gov/data/correlation/oni.data",
+        "fwf_kwargs": dict(
+            skiprows=1,
+            skipfooter=8,
+            header=None,
+            widths=[
+                5,
+            ]
+            + [7] * 12,
+        ),
+        "variable": "ONI",
+        "format": "wide",
+        "seasons": True,
+        "period_start": 7,
+        "period_end": 11,
+        "FILL_VALUE": -99.9,
+    },
 }
 
 
