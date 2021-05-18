@@ -309,9 +309,25 @@ def decadeResampler(table: pd.DataFrame) -> pd.DataFrame:
     return data.reset_index(drop=True)
 
 
-def splitByDay(table: pd.DataFrame) -> List[pd.DataFrame]:
+def splitByDay(
+    table: pd.DataFrame,
+    rename_cols: bool = True,
+    DAY_MAP: dict[int, str] = {1: "1D", 11: "2D", 21: "3D"},
+) -> List[pd.DataFrame]:
     groups = table.groupby(table["time"].dt.day).groups
     data_list = [table.iloc[x].reset_index(drop=True) for x in groups.values()]
+    if rename_cols is True:
+        for data in data_list:
+            day = data["time"].iloc[0].day
+            data.rename(
+                columns={
+                    colname: f"{colname}_{DAY_MAP[day]}"
+                    for colname in data.columns
+                    if colname != "time"
+                },
+                inplace=True,
+            )
+            data = _datefix(data)
     return data_list
 
 
