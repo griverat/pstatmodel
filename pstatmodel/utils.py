@@ -166,7 +166,7 @@ def parse_fwf(
     if "columns" in kwargs.keys():
         variable = variable.rename(columns=kwargs["columns"])
     if timefix is True:
-        variable = timefix(variable)
+        variable = monthResampler(variable)
     var = (
         kwargs["variable"]
         if isinstance(kwargs["variable"], list)
@@ -204,7 +204,7 @@ def monthsAreComplete(table: pd.DataFrame) -> bool:
     return True
 
 
-def timefix(table: pd.DataFrame, resample_to_months: bool = False):
+def monthResampler(table: pd.DataFrame, resample_to_months: bool = False):
     if resample_to_months:
         table = table.resample("M", on="time").mean().reset_index()
     table["time"] = table["time"].apply(lambda dt: dt.replace(day=15))
@@ -237,7 +237,7 @@ def shift_predictor(
     if table.columns.size > 2:
         table = table[["time", predictor]]
     if not monthsAreComplete(table):
-        table = timefix(table, resample_to_months=True)
+        table = monthResampler(table, resample_to_months=True)
     for year in range(iyear, fyear):
         idate = f"{year-1}-{init_month}-15"
         fdate = f"{year}-{init_month}-01"
