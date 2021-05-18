@@ -222,7 +222,7 @@ def wide_to_long(source: str, fwf_kwargs: dict = {}, **kwargs: dict) -> pd.DataF
     return long_data.reset_index(drop=True)
 
 
-def monthsAreComplete(table: pd.DataFrame) -> bool:
+def _monthsAreComplete(table: pd.DataFrame) -> bool:
     months = table["time"].dt.month.unique()
     for mnum in range(1, 13):
         if mnum not in months:
@@ -262,7 +262,7 @@ def shift_predictor(
 
     if table.columns.size > 2:
         table = table[["time", predictor]]
-    if not monthsAreComplete(table):
+    if not _monthsAreComplete(table):
         table = monthResampler(table, resample_to_months=True)
     for year in range(iyear, fyear):
         idate = f"{year-1}-{init_month}-15"
