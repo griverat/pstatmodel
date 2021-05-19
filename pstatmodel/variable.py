@@ -8,6 +8,7 @@ from pstatmodel.utils import (
     decadeResampler,
     monthResampler,
     parse_fwf,
+    shift_predictor,
     splitByDay,
     wide_to_long,
 )
@@ -70,6 +71,22 @@ class PredictorVariable:
             _resampled = raw_data
 
         self.raw_data = _resampled[0] if len(_resampled) == 1 else _resampled
+
+    def shiftData(self, **kwargs):
+        if isinstance(self.raw_data, list):
+            _proc_data = []
+            for _elem in self.raw_data:
+                for _col in _elem.columns[1:]:
+                    _proc_data.append(
+                        shift_predictor(_elem, _col, **kwargs).iloc[
+                            :, self.period[0] : self.period[1]
+                        ]
+                    )
+        else:
+            _proc_data = shift_predictor(self.raw_data, self.predictor, **kwargs).iloc[
+                :, self.period[0] : self.period[1]
+            ]
+        self.shifted_data = _proc_data
 
     @classmethod
     def from_dataframe(cls, predictor, variable, dataframe, **kwargs):
