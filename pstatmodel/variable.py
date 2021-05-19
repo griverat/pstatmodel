@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Union
+from typing import List, Optional, Union
 
 import pandas as pd
 
@@ -30,7 +30,7 @@ class PredictorVariable:
     source: str
     variable: Union[str, List[str]]
     format: str
-    parse_kwargs: dict
+    parse_kwargs: Optional[dict] = None
     raw_data: Union[List[pd.DataFrame], pd.DataFrame, None] = field(
         default=None, repr=False
     )
@@ -106,18 +106,25 @@ class PredictorVariable:
 class ModelVariables:
     variables: dict[str, PredictorVariable] = field(default_factory=default_variables)
 
-    def register_variable(self, var_name, variable, table, **kwargs):
+    def register_variable(
+        self,
+        var_name: str,
+        variable: Union[str, List[str]],
+        table: pd.DataFrame,
+        **kwargs
+    ) -> None:
         self.variables[var_name] = PredictorVariable.from_dataframe(
             var_name, variable, table, **kwargs
         )
 
-    def shiftAllVariables(self, **kwargs):
-        for _predvar in self.variables:
+    def shiftAllVariables(self, **kwargs) -> None:
+        self.shiftedVariables = []
+        for _predvar in self.variables.values():
             _predvar.shiftData(**kwargs)
             if isinstance(_predvar.shifted_data, list):
                 self.shiftedVariables += _predvar.shifted_data
             else:
                 self.shiftedVariables.append(_predvar.shifted_data)
 
-    def get_datatable(self):
+    def get_datatable(self) -> pd.DataFrame:
         return pd.concat(self.shiftedVariables, axis=1)
