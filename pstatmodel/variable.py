@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Optional, Union
+from typing import List, Union
 
 import pandas as pd
 
@@ -30,7 +30,9 @@ class PredictorVariable:
     variable: Union[str, List[str]]
     format: str
     parse_kwargs: dict
-    raw_data: Optional[pd.DataFrame] = field(default=None, repr=False)
+    raw_data: Union[List[pd.DataFrame], pd.DataFrame, None] = field(
+        default=None, repr=False
+    )
     columns: dict[str, str] = None
     FILL_VALUE: float = None
     timefix: bool = True
