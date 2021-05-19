@@ -108,3 +108,14 @@ class ModelVariables:
         self.variables[var_name] = PredictorVariable.from_dataframe(
             var_name, variable, table, **kwargs
         )
+
+    def shiftAllVariables(self, **kwargs):
+        for _predvar in self.variables:
+            _predvar.shiftData(**kwargs)
+            if isinstance(_predvar.shifted_data, list):
+                self.shiftedVariables += _predvar.shifted_data
+            else:
+                self.shiftedVariables.append(_predvar.shifted_data)
+
+    def get_datatable(self):
+        return pd.concat(self.shiftedVariables, axis=1)
