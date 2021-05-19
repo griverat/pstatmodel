@@ -97,9 +97,9 @@ class PredictorVariable:
                         ]
                     )
         else:
-            _proc_data = shift_predictor(self.raw_data, self.predictor, **kwargs).iloc[
-                :, self.period[0] : self.period[1]
-            ]
+            _proc_data = shift_predictor(
+                self.raw_data, self.predictor, use_seasons=self.use_seasons, **kwargs
+            ).iloc[:, self.period[0] : self.period[1]]
         self.shifted_data = _proc_data
 
     @classmethod
