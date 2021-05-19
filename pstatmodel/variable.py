@@ -108,7 +108,7 @@ class PredictorVariable:
             predictor=predictor,
             source="user-generated",
             variable=variable,
-            format="long",
+            format="custom",
             raw_data=dataframe,
             **kwargs
         )
