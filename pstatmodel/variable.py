@@ -70,6 +70,8 @@ class PredictorVariable:
         else:
             _resampled = raw_data
 
+        if isinstance(self.variable, list):
+            _resampled = [raw_data["time", _var] for _var in self.variable]
         self.raw_data = _resampled[0] if len(_resampled) == 1 else _resampled
 
     def shiftData(self, **kwargs):
