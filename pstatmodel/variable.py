@@ -71,7 +71,19 @@ class PredictorVariable:
             _resampled = raw_data
 
         if isinstance(self.variable, list):
-            _resampled = [raw_data["time", _var] for _var in self.variable]
+            if isinstance(_resampled, list):
+                _resampled = [
+                    _data[["time", _var]]
+                    for _data in _resampled
+                    for _var in _data
+                    if _var != "time"
+                ]
+            else:
+                _resampled = [
+                    _resampled[["time", _var]]
+                    for _var in self.variable
+                    if _var != "time"
+                ]
         self.raw_data = _resampled[0] if len(_resampled) == 1 else _resampled
 
     def shiftData(self, **kwargs):
