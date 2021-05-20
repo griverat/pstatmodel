@@ -145,6 +145,7 @@ DATA_CONTAINTER = {
         "variable": ["RMM1", "RMM2", "amplitude"],
         "period": [-7, 12],
         "resample": ["months", "decades"],
+        "FILL_VALUE": 9.99999962e35,
     },
     "ONI": {
         "source": "https://psl.noaa.gov/data/correlation/oni.data",
