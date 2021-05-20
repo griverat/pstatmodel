@@ -110,7 +110,7 @@ class PredictorVariable:
             variable=variable,
             format="custom",
             raw_data=dataframe,
-            **kwargs
+            **kwargs,
         )
 
 
@@ -123,7 +123,7 @@ class ModelVariables:
         var_name: str,
         variable: Union[str, List[str]],
         table: pd.DataFrame,
-        **kwargs
+        **kwargs,
     ) -> None:
         self.variables[var_name] = PredictorVariable.from_dataframe(
             var_name, variable, table, **kwargs
