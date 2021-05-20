@@ -44,6 +44,7 @@ class PredictorVariable:
 
     def __post_init__(self) -> None:
         _parser = DATA_PARSER[self.format]
+        print(f"Loading variable {self.predictor}")
         if _parser is not None:
             raw_data = _parser(
                 source=self.source,
