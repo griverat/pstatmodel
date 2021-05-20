@@ -3,6 +3,7 @@ from io import StringIO
 from time import time
 from typing import List
 
+import numpy as np
 import pandas as pd
 import requests
 
@@ -199,6 +200,8 @@ def parse_fwf(
         if isinstance(kwargs["variable"], list)
         else [kwargs["variable"]]
     )
+    if kwargs["FILL_VALUE"] is not None:
+        variable = variable.replace(kwargs["FILL_VALUE"], np.nan)
     return variable[["time"] + var]
 
 
