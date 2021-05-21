@@ -1,7 +1,7 @@
 from functools import wraps
 from io import StringIO
 from time import time
-from typing import List
+from typing import List, Optional, Union
 
 import numpy as np
 import pandas as pd
@@ -185,48 +185,55 @@ def _scrap_data(source):
 
 def parse_fwf(
     source: str,
+    variable: Union[str, List[str]],
     parse_kwargs: dict = {},
+    columns: Optional[dict[str, str]] = None,
+    FILL_VALUE: Optional[float] = None,
+    timefix: bool = True,
+    webscrap: bool = False,
     **kwargs: dict,
 ) -> pd.DataFrame:
-    if kwargs["webscrap"] is True:
+
+    if webscrap is True:
         source = _scrap_data(source)
 
     long_data = pd.read_fwf(source, **parse_kwargs)
 
-    if kwargs["columns"] is not None:
-        long_data = long_data.rename(columns=kwargs["columns"])
-    if kwargs["timefix"] is True:
+    if columns is not None:
+        long_data = long_data.rename(columns=columns)
+    if timefix is True:
         long_data = _datefix(long_data)
 
-    var = (
-        kwargs["variable"]
-        if isinstance(kwargs["variable"], list)
-        else [kwargs["variable"]]
-    )
+    var = variable if isinstance(variable, list) else [variable]
 
-    if kwargs["FILL_VALUE"] is not None:
-        long_data = long_data.replace(kwargs["FILL_VALUE"], np.nan)
+    if FILL_VALUE is not None:
+        long_data = long_data.replace(FILL_VALUE, np.nan)
 
     return long_data[["time"] + var]
 
 
-def wide_to_long(source: str, parse_kwargs: dict = {}, **kwargs: dict) -> pd.DataFrame:
+def wide_to_long(
+    source: str,
+    variable: Union[str, List[str]],
+    parse_kwargs: dict = {},
+    FILL_VALUE: Optional[float] = None,
+    **kwargs: dict,
+) -> pd.DataFrame:
+
     wide_data = pd.read_fwf(source, **parse_kwargs)
 
-    if kwargs["FILL_VALUE"] is None:
+    if FILL_VALUE is None:
         FILL_VALUE = wide_data.iloc[-1, 0]
         wide_data = wide_data.iloc[:-1, :]
     else:
-        FILL_VALUE = kwargs["FILL_VALUE"]
+        FILL_VALUE = FILL_VALUE
 
-    long_data = pd.melt(
-        wide_data, id_vars=[0], var_name="month", value_name=kwargs["variable"]
-    )
+    long_data = pd.melt(wide_data, id_vars=[0], var_name="month", value_name=variable)
     long_data["time"] = long_data.apply(
         lambda x: pd.to_datetime(f"{x[0]:.0f}-{x['month']:.0f}-15"), axis=1
     )
-    long_data = long_data.sort_values("time")[["time", kwargs["variable"]]]
-    long_data = long_data[long_data[kwargs["variable"]] != FILL_VALUE]
+    long_data = long_data.sort_values("time")[["time", variable]]
+    long_data = long_data[long_data[variable] != FILL_VALUE]
 
     return long_data.reset_index(drop=True)
 
