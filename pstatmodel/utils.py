@@ -251,12 +251,6 @@ def _datefix(table: pd.DataFrame):
     return table
 
 
-def monthResampler(table: pd.DataFrame):
-    table = table.resample("M", on="time").mean().reset_index()
-    table = _datefix(table)
-    return table
-
-
 def shift_predictor(
     table: pd.DataFrame,
     predictor: str,
@@ -333,6 +327,12 @@ def decadeResampler(table: pd.DataFrame) -> pd.DataFrame:
         closest_day = ST_DATES[ST_DATES.index(data.iloc[1, 0].day) - 1]
         data.iloc[0, 0] = data.iloc[0, 0].replace(day=closest_day)
     return data.reset_index(drop=True)
+
+
+def monthResampler(table: pd.DataFrame):
+    table = table.resample("M", on="time").mean().reset_index()
+    table = _datefix(table)
+    return table
 
 
 def splitByDay(
