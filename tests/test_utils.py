@@ -34,7 +34,7 @@ def test_decadeResampler():
             "col2": np.random.randn(364),
         }
     )
-    result = utils.resampleToDecade(df).set_index("time").index
+    result = utils.decadeResampler(df).set_index("time").index
     expected = pd.date_range("2010-01-01", "2010-12-31", freq="1MS", name="time")
     expected = expected.union(expected + pd.Timedelta("10D")).union(
         expected + pd.Timedelta("20D")
