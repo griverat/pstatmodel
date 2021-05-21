@@ -341,7 +341,7 @@ def splitByDay(
     DAY_MAP: dict[int, str] = {1: "1D", 11: "2D", 21: "3D"},
 ) -> List[pd.DataFrame]:
     groups = table.groupby(table["time"].dt.day).groups
-    data_list = [table.iloc[x].reset_index(drop=True) for x in groups.values()]
+    data_list = [table.iloc[x].reset_index(drop=True).copy() for x in groups.values()]
     if rename_cols is True:
         for data in data_list:
             day = data["time"].iloc[0].day
