@@ -190,19 +190,24 @@ def parse_fwf(
 ) -> pd.DataFrame:
     if kwargs["webscrap"] is True:
         source = _scrap_data(source)
-    variable = pd.read_fwf(source, **parse_kwargs)
+
+    long_data = pd.read_fwf(source, **parse_kwargs)
+
     if kwargs["columns"] is not None:
-        variable = variable.rename(columns=kwargs["columns"])
+        long_data = long_data.rename(columns=kwargs["columns"])
     if kwargs["timefix"] is True:
-        variable = _datefix(variable)
+        long_data = _datefix(long_data)
+
     var = (
         kwargs["variable"]
         if isinstance(kwargs["variable"], list)
         else [kwargs["variable"]]
     )
+
     if kwargs["FILL_VALUE"] is not None:
-        variable = variable.replace(kwargs["FILL_VALUE"], np.nan)
-    return variable[["time"] + var]
+        long_data = long_data.replace(kwargs["FILL_VALUE"], np.nan)
+
+    return long_data[["time"] + var]
 
 
 def wide_to_long(source: str, parse_kwargs: dict = {}, **kwargs: dict) -> pd.DataFrame:
