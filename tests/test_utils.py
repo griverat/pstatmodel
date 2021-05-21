@@ -50,6 +50,10 @@ def test_splitByDay():
             "col2": np.random.randn(365),
         }
     )
-    result = utils.splitByDay(df)[0]
-    expected = df[df["time"].dt.day == 1].reset_index(drop=True)
+
+    DAY_MAP = {date: f"{date}d" for date in range(1, 32)}
+
+    result = utils.splitByDay(df, DAY_MAP=DAY_MAP)[14]
+    expected = df[df["time"].dt.day == 15].reset_index(drop=True)
+    expected.columns = ["time", "col1_15d", "col2_15d"]
     pd.testing.assert_frame_equal(result, expected)
