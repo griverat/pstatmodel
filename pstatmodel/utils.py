@@ -338,6 +338,7 @@ def decadeResampler(table: pd.DataFrame) -> pd.DataFrame:
 def splitByDay(
     table: pd.DataFrame,
     rename_cols: bool = True,
+    datefix: bool = True,
     DAY_MAP: dict[int, str] = {1: "1D", 11: "2D", 21: "3D"},
 ) -> List[pd.DataFrame]:
     groups = table.groupby(table["time"].dt.day).groups
@@ -353,7 +354,8 @@ def splitByDay(
                 },
                 inplace=True,
             )
-            data = _datefix(data)
+            if datefix is True:
+                data = _datefix(data)
     return data_list
 
 
