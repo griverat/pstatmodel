@@ -117,3 +117,9 @@ def test_ModelVariables():
     ecData = pd.read_csv("tests/data/ec_ersstv5.txt", parse_dates=[0])
     Model.register_variable("EC_index", ["E", "C"], ecData)
     assert "EC_index" in Model.variables.keys()
+
+    Model.shiftAllVariables(init_month="08", fyear=2022)
+    assert len(Model.shiftedVariables) != 0
+
+    final_df = Model.get_datatable()
+    assert not final_df.empty
