@@ -8,9 +8,39 @@ ecData = pd.read_csv("tests/data/ec_ersstv5.txt", sep=",", parse_dates=[0])
 expected = pd.read_csv("tests/data/e_reformat.txt", sep=";")
 
 
-def test_ShiftPredictor():
-    result = utils.shift_predictor(ecData, "E", "08")
-    np.array_equal(result, expected)
+def test_shiftPredictor():
+    _dates = pd.date_range("2000-01-02", "2016-12-31", freq="MS") + pd.Timedelta("14D")
+
+    df = pd.DataFrame(
+        {
+            "time": _dates,
+            "col1": np.random.randn(_dates.size),
+            "col2": np.random.randn(_dates.size),
+        }
+    )
+
+    result = utils.shift_predictor(df, "col1", "08").loc[2006]
+    expected = df.query("(time>'2005-08-01')&(time<'2006-08-01')")["col1"].copy()
+    expected.index = [
+        "col1_Agosto",
+        "col1_Setiembre",
+        "col1_Octubre",
+        "col1_Noviembre",
+        "col1_Diciembre",
+        "col1_Enero",
+        "col1_Febrero",
+        "col1_Marzo",
+        "col1_Abril",
+        "col1_Mayo",
+        "col1_Junio",
+        "col1_Julio",
+    ]
+    expected.name = 2006
+    pd.testing.assert_series_equal(result, expected)
+
+    result = utils.shift_predictor(df[df.time.dt.month != 12], "col1", "08").loc[2006]
+    expected.iloc[4] = np.nan
+    pd.testing.assert_series_equal(result, expected)
 
 
 @pytest.mark.parametrize(
