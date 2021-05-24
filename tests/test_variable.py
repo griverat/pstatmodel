@@ -81,7 +81,7 @@ def test_ShiftVariables(predictor, source_data):
 @pytest.mark.parametrize(
     "predictor,source_data",
     DATA_CONTAINTER.items(),
-    ids=[f"{k}_df" for k in DATA_CONTAINTER.keys()],
+    ids=DATA_CONTAINTER.keys(),
 )
 def test_from_dataframe(predictor, source_data):
     expected = PredictorVariable(predictor, **source_data)
