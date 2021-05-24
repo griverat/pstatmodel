@@ -4,9 +4,6 @@ import pytest
 
 from pstatmodel import utils
 
-ecData = pd.read_csv("tests/data/ec_ersstv5.txt", sep=",", parse_dates=[0])
-expected = pd.read_csv("tests/data/e_reformat.txt", sep=";")
-
 
 def test_shiftPredictor():
     _dates = pd.date_range("2000-01-02", "2016-12-31", freq="MS") + pd.Timedelta("14D")
