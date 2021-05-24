@@ -42,6 +42,25 @@ def test_shiftPredictor():
     expected.iloc[4] = np.nan
     pd.testing.assert_series_equal(result, expected)
 
+    result = utils.shift_predictor(
+        df[df.time.dt.month != 12], "col1", "08", use_seasons=True
+    ).loc[2006]
+    expected.index = [
+        "col1_JAS",
+        "col1_ASO",
+        "col1_SON",
+        "col1_OND",
+        "col1_NDJ",
+        "col1_DJF",
+        "col1_JFM",
+        "col1_FMA",
+        "col1_MAM",
+        "col1_AMJ",
+        "col1_MJJ",
+        "col1_JJA",
+    ]
+    pd.testing.assert_series_equal(result, expected)
+
 
 @pytest.mark.parametrize(
     "source_data", utils.DATA_CONTAINTER.values(), ids=utils.DATA_CONTAINTER.keys()
