@@ -42,6 +42,21 @@ def test_decadeResampler():
     pd.testing.assert_index_equal(result, expected)
 
 
+def test_monthResampler():
+    df = pd.DataFrame(
+        {
+            "time": pd.date_range("2010-01-02", "2010-12-31", freq="1D"),
+            "col1": np.random.randn(364),
+            "col2": np.random.randn(364),
+        }
+    )
+    result = utils.monthResampler(df).set_index("time").index
+    expected = pd.date_range(
+        "2010-01-01", "2010-12-31", freq="1MS", name="time"
+    ) + pd.Timedelta("14D")
+    pd.testing.assert_index_equal(result, expected)
+
+
 def test_splitByDay():
     df = pd.DataFrame(
         {
