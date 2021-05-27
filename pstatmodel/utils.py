@@ -166,7 +166,7 @@ DATA_CONTAINTER = {
         "FILL_VALUE": -99.9,
     },
     "ICEN": {
-        "source": "http://10.10.90.19:80/datos/icen.txt",
+        "source": "http://met.igp.gob.pe/datos/icen.txt",
         "parse_kwargs": dict(skiprows=12, parse_dates=[[0, 1]], header=None),
         "columns": {"0_1": "time", 2: "ICEN"},
         "variable": "ICEN",
