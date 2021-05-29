@@ -177,7 +177,7 @@ DATA_CONTAINTER = {
 }
 
 
-def _scrap_data(source):
+def _scrap_data(source: str) -> StringIO:
     user_agent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.37"
     data = requests.get(source, headers={"User-Agent": user_agent})
     return StringIO(data.text)
@@ -246,7 +246,7 @@ def _monthsAreComplete(table: pd.DataFrame) -> bool:
     return True
 
 
-def _datefix(table: pd.DataFrame):
+def _datefix(table: pd.DataFrame) -> pd.DataFrame:
     table["time"] = table["time"].apply(lambda dt: dt.replace(day=15))
     return table
 
@@ -329,7 +329,7 @@ def decadeResampler(table: pd.DataFrame) -> pd.DataFrame:
     return data.reset_index(drop=True)
 
 
-def monthResampler(table: pd.DataFrame):
+def monthResampler(table: pd.DataFrame) -> pd.DataFrame:
     table = table.resample("M", on="time").mean().reset_index()
     table = _datefix(table)
     return table
