@@ -115,7 +115,7 @@ def test_ModelVariables():
     assert Model.variables.keys() == DATA_CONTAINTER.keys()
 
     ecData = pd.read_csv("tests/data/ec_ersstv5.txt", parse_dates=[0])
-    Model.register_variable("EC_index", ["E", "C"], ecData)
+    Model.register_variable("EC_index", ["E_add", "C_add"], ecData)
     assert "EC_index" in Model.variables.keys()
 
     Model.shiftAllVariables(init_month="08", fyear=2022)
