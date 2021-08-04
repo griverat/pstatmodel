@@ -103,7 +103,7 @@ def test_from_dataframe(predictor, source_data):
 
     if isinstance(result.raw_data, list):
         for res, exp in zip(result.raw_data, expected.raw_data):
-            pd.testing.assert_frame_equal(res, exp)
+            pd.testing.assert_frame_equal(res.dropna(), exp.dropna())
     else:
         pd.testing.assert_frame_equal(result.raw_data, expected.raw_data)
     assert result.format == "custom"
