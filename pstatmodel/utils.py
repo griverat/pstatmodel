@@ -174,6 +174,14 @@ DATA_CONTAINTER = {
         "use_seasons": True,
         "period": [-4, 11],
     },
+    "EC": {
+        "source": "http://met.igp.gob.pe/datos/ecindex_ersstv5.txt",
+        "parse_kwargs": dict(
+            skiprows=5, parse_dates={"time": [0, 1]}, names=["year", "month", "E", "C"]
+        ),
+        "variable": ["E", "C"],
+        "format": "long",
+    },
 }
 
 
