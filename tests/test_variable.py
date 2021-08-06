@@ -84,6 +84,7 @@ def test_ShiftVariables(predictor, source_data):
     ids=DATA_CONTAINTER.keys(),
 )
 def test_from_dataframe(predictor, source_data):
+    source_data = source_data.copy()
     expected = PredictorVariable(predictor, **source_data)
 
     _input_data = (
