@@ -1,6 +1,7 @@
 name: pstatmodel
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - numpy
   - scipy
@@ -29,6 +30,9 @@ dependencies:
   - pytest-cov
   - pytest-xdist
   - pre-commit
-  - scikit-learn
+  - dask-jobqueue
+  - ca-certificates
+  - certifi
+  - openssl
   - isort
-prefix: /home/dangomelon/anaconda3/envs/pstatmodel
+prefix: /home/grivera/miniconda3/envs/pstatmodel
