@@ -157,7 +157,7 @@ def stepwise_selection(
                 changed = True
 
             elif len(included) >= min_vars and lower:
-                if model.rsquared ** (0.5) > 0.9:
+                if round(model.rsquared, 3) ** (0.5) > 0.9:
                     changed = False
                     if verbose:
                         print("Breaking condition met: R value over 0.9")
