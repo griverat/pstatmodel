@@ -9,7 +9,7 @@ dependencies:
   - matplotlib
   - dask
   - eofs
-  - netCDF4
+  - netcdf4
   - bottleneck
   - statsmodels
   - openpyxl
@@ -22,10 +22,13 @@ dependencies:
   - watchdog
   - flake8
   - coverage
-  - Sphinx
+  - sphinx
   - twine
   - pytest
   - pytest-runner
   - pytest-cov
   - pytest-xdist
   - pre-commit
+  - scikit-learn
+  - isort
+prefix: /home/dangomelon/anaconda3/envs/pstatmodel
