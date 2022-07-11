@@ -44,15 +44,18 @@ def stepwise_selection(
         # forward step
         excluded = list(set(X.columns) - set(included))
         new_pval = pd.Series(index=excluded, dtype=float)
+        new_rval = pd.Series(index=excluded, dtype=float)
         for new_column in excluded:
             model = sm.OLS(y, sm.add_constant(X[included + [new_column]])).fit()
             new_pval[new_column] = model.pvalues[new_column]
+            new_rval[new_column] = round(model.rsquared, 3) ** (0.5)
         best_pval = new_pval.min()
         if best_pval < threshold_in:
-            best_feature = new_pval.index[new_pval.argmin()]
+            _ix = new_pval.argmin()
+            best_feature = new_pval.index[_ix]
             included.append(best_feature)
             included_pvals.append(best_pval)
-            included_rvals.append(model.rsquared ** (0.5))
+            included_rvals.append(new_rval[_ix])
             changed = True
             if verbose:
                 print("Add  {:30} with p-value {:.6}".format(best_feature, best_pval))
