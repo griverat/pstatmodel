@@ -167,7 +167,7 @@ DATA_CONTAINTER = {
     },
     "ICEN": {
         "source": "http://met.igp.gob.pe/datos/icen.txt",
-        "parse_kwargs": dict(skiprows=12, parse_dates=[[0, 1]], header=None),
+        "parse_kwargs": dict(skiprows=17, parse_dates=[[0, 1]], header=None),
         "columns": {"0_1": "time", 2: "ICEN"},
         "variable": "ICEN",
         "format": "long",
@@ -266,6 +266,7 @@ def shift_predictor(
     iyear: int = 1975,
     fyear: int = 2017,
     use_seasons: bool = False,
+    standardize: bool = False,
 ) -> pd.DataFrame:
     _collection = []
     months = [
@@ -322,6 +323,8 @@ def shift_predictor(
     result.columns = column_names
     result.index = range(iyear, fyear)
     result.index.name = "year"
+    if standardize:
+        result = result.apply(lambda x: (x - x.mean()) / x.std(), axis=1)
     return result
 
 
