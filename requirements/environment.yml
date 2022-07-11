@@ -35,4 +35,7 @@ dependencies:
   - certifi
   - openssl
   - isort
+  - cvxopt
+  - joblib
+  - geopandas
 prefix: /home/grivera/miniconda3/envs/pstatmodel
