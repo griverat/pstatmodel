@@ -39,4 +39,5 @@ dependencies:
   - joblib
   - geopandas
   - papermill
+  - jupyterlab
 prefix: /home/grivera/miniconda3/envs/pstatmodel
