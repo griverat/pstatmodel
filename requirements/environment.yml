@@ -38,4 +38,5 @@ dependencies:
   - cvxopt
   - joblib
   - geopandas
+  - papermill
 prefix: /home/grivera/miniconda3/envs/pstatmodel
