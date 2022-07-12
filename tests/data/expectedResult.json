@@ -83,8 +83,7 @@
             "amplitude_3D_01.1",
             "TSA_Octubre",
             "WP_Noviembre",
-            "NAO_Diciembre",
-            "AO_Mayo"
+            "NAO_Diciembre"
         ],
         "pvalue": 0.04
     },
@@ -119,8 +118,7 @@
             "NAO_Julio",
             "EP/NP_Mayo",
             "ONI_AMJ",
-            "WP_Julio",
-            "AMI_Julio"
+            "WP_Julio"
         ],
         "pvalue": 0.1
     }

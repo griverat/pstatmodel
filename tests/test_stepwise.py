@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from pstatmodel.stepwise import base, base_old
+from pstatmodel.stepwise import base
 
 predictors = pd.read_excel(
     "tests/data/Predcitores_IniJul_Gerardo_ec.xlsx", engine="openpyxl"
@@ -38,26 +38,6 @@ def shiftData(case, predictors=predictors, testset=testSetPisco, expected=expect
         predictors.iloc[4:40].reset_index(drop=True),
         expectedCase,
     )
-
-
-@pytest.mark.parametrize(
-    "testSetOld,predictorsOld,expectedOld",
-    [shiftData(x) for x in range(iTEST, fTEST)],
-)
-def test_base_old(testSetOld, predictorsOld, expectedOld):
-    model = (
-        base_old.stepwise_selection(
-            predictorsOld,
-            testSetOld,
-            threshold_in=0.05,
-            threshold_out=0.1,
-            max_vars=12,
-            min_vars=4,
-            verbose=True,
-        ),
-    )
-    assert model[0][0] == expectedOld["vars"]
-    np.testing.assert_equal(model[0][2], expectedOld["pvalue"])
 
 
 @pytest.mark.parametrize(
