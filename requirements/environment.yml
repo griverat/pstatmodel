@@ -40,4 +40,7 @@ dependencies:
   - geopandas
   - papermill
   - jupyterlab
+  - salem
+  - descartes
+  - rasterio
 prefix: /home/grivera/miniconda3/envs/pstatmodel
